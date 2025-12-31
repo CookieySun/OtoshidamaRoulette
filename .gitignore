@@ -1,0 +1,44 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+.kotlin/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# 既存の内容に追加
+
+# APK/AAB files
+*.apk
+*.aab
+*.ap_
+
+# Signing files
+*.jks
+*.keystore
+
+# Log files
+*.log
+
+gradle/wrapper/gradle-wrapper.jar
+
+# App specific
+/app/build/
+/app/release/
+
+# Kotlin
+*.kotlin_module
+
+# Proguard
+proguard/
+
+# Test outputs
+/app/outputs/
+
+# Misc
+*.hprof
+.navigation/
+captures/
