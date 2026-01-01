@@ -128,106 +128,106 @@ fun RouletteScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-        // タイトル
-        Text(
-            text = "お年玉ルーレット",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFFD32F2F)
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 結果表示エリア
-        Box(modifier = Modifier.height(120.dp)) {
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Color.White)
-                    .padding(horizontal = 32.dp, vertical = 16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                if (selectedItem != null) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "あたり！",
-                            fontSize = 18.sp,
-                            color = Color.Gray
-                        )
-                        Text(
-                            text = selectedItem.label,
-                            fontSize = 48.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFD32F2F)
-                        )
-                    }
-                } else if (!isSpinning) {
-                    Text(
-                        text = "スタートを押してね",
-                        fontSize = 20.sp,
-                        color = Color.Gray
-                    )
-                } else {
-                    Text(
-                        text = "ストップを押してね",
-                        fontSize = 20.sp,
-                        color = Color.Gray
-                    )
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // 選択位置の矢印
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .offset(y = 10.dp),
-            contentAlignment = Alignment.Center
-        ) {
+            // タイトル
             Text(
-                text = "▼",
-                fontSize = 32.sp,
+                text = "お年玉ルーレット",
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
                 color = Color(0xFFD32F2F)
             )
-        }
 
-        // ルーレットホイール（描画のみ）
-        RouletteWheel(
-            items = items,
-            rotation = rotation.value
-        )
+            Spacer(modifier = Modifier.height(24.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // スタート/ストップボタン
-        Button(
-            onClick = { viewModel.onButtonClick() },
-            modifier = Modifier
-                .width(200.dp)
-                .height(56.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = when (state) {
-                    RouletteState.IDLE -> Color(0xFF4CAF50)
-                    RouletteState.SPINNING -> Color(0xFFF44336)
-                    RouletteState.WAITING_TO_STOP -> Color.Gray
-                    RouletteState.STOPPING -> Color.Gray
+            // 結果表示エリア
+            Box(modifier = Modifier.height(120.dp)) {
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                        .padding(horizontal = 32.dp, vertical = 16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (selectedItem != null) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "あたり！",
+                                fontSize = 18.sp,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = selectedItem.label,
+                                fontSize = 48.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFFD32F2F)
+                            )
+                        }
+                    } else if (isSpinning || isStopping) {
+                        Text(
+                            text = "ストップを押してね",
+                            fontSize = 20.sp,
+                            color = Color.Gray
+                        )
+                    } else {
+                        Text(
+                            text = "スタートを押してね",
+                            fontSize = 20.sp,
+                            color = Color.Gray
+                        )
+                    }
                 }
-            ),
-            enabled = state == RouletteState.IDLE || state == RouletteState.SPINNING,
-            shape = RoundedCornerShape(28.dp)
-        ) {
-            Text(
-                text = when (state) {
-                    RouletteState.IDLE -> "スタート"
-                    RouletteState.SPINNING -> "ストップ"
-                    RouletteState.WAITING_TO_STOP -> "停止中..."
-                    RouletteState.STOPPING -> "停止中..."
-                },
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // 選択位置の矢印
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .offset(y = 10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "▼",
+                    fontSize = 32.sp,
+                    color = Color(0xFFD32F2F)
+                )
+            }
+
+            // ルーレットホイール（描画のみ）
+            RouletteWheel(
+                items = items,
+                rotation = rotation.value
             )
-        }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // スタート/ストップボタン
+            Button(
+                onClick = { viewModel.onButtonClick() },
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = when (state) {
+                        RouletteState.IDLE -> Color(0xFF4CAF50)
+                        RouletteState.SPINNING -> Color(0xFFF44336)
+                        RouletteState.WAITING_TO_STOP -> Color.Gray
+                        RouletteState.STOPPING -> Color.Gray
+                    }
+                ),
+                enabled = state == RouletteState.IDLE || state == RouletteState.SPINNING,
+                shape = RoundedCornerShape(28.dp)
+            ) {
+                Text(
+                    text = when (state) {
+                        RouletteState.IDLE -> "スタート"
+                        RouletteState.SPINNING -> "ストップ"
+                        RouletteState.WAITING_TO_STOP -> "停止中..."
+                        RouletteState.STOPPING -> "停止中..."
+                    },
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }
